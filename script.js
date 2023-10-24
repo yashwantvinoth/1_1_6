@@ -15,6 +15,8 @@ function getCookie(cname) {
 }
 
 function createEquation() {
+    let equation;
+    let equationCheck;
     while (true) {
         let number1 = Math.floor(Math.random() * 100);
         let number2 = Math.floor(Math.random() * 100);
@@ -41,80 +43,45 @@ function createEquation() {
                 continue;
             }
         }
-        let equation = number1.toString() + operation + number2.toString() + "=" + answer;
+        equation = number1.toString() + operation + number2.toString() + "=" + answer;
         if (equation.length == 6) {
             let order = Math.floor(Math.random() * 2);
             if (order == 0) {
                 equation = answer + "=" + number1.toString() + operation + number2.toString()
             }
-            return equation;
             break;
         } else {
             continue;
         }
     }
+    return equation;
 }
 
 function checkEquation() {
     let row = getCookie("row");
+    let equationCheck = '';
     let equalCounter = 0;
     let operationCounter = 0;
+    let operation = "";
+    let equation = "";
+    const listOfOperations = ['+', '-', '*', "/", '='];
     if (document.getElementById("text" + row.toString() + "-6").textContent == "") {
-        alert("Please input a valid 6-character equation");
+        alert("bad");
     } else {
-        let equation = "";
-        for (let i = 0; i < 6; i++) {
-            let equation = equation + document.getElementById("text" + row + '-' + (i+1)).textContent;
-            if (document.getElementById("text" + row + '-' + (i+1)).textContent == "=") {
+        for (let i = 1; i < 7; i++) {
+            equation = equation + document.getElementById("text" + row + '-' + (i)).textContent;
+            if (document.getElementById("text" + row + '-' + (i)).textContent == "=") {
                 equalCounter = equalCounter + 1;
-            } else if (document.getElementById("text" + row + '-' + (i+1)).textContent == "+" || document.getElementById("text" + row + '-' + (i+1)).textContent == "-" || document.getElementById("text" + row + '-' + (i+1)).textContent == "*" || document.getElementById("text" + row + '-' + (i+1)).textContent == "/") {
-                operationCounter = operationCounter + 1;
             }
-        }
-        if (operationCounter != 1 || equalCounter != 1 || document.getElementById("text" + row + '-1').textContent == "=" || document.getElementById("text" + row + '-6').textContent == "=" || document.getElementById("text" + row + '-1').textContent == "+" || document.getElementById("text" + row + '-1').textContent == "-" || document.getElementById("text" + row + '-1').textContent == "*" || document.getElementById("text" + row + '-1').textContent == "/" || document.getElementById("text" + row + '-6').textContent == "+" || document.getElementById("text" + row + '-6').textContent == "-" || document.getElementById("text" + row + '-6').textContent == "*" || document.getElementById("text" + row + '-6').textContent == "/") {
-            alert("Please input a valid 6-character equation");
-        } else {
-            equation = equation.split("=");
-            if (equation[0].contains("+") == true || equation[0].contains("-") == true || equation[0].contains("/") == true || equation[0].contains("*") == true) {
-                let expression = equation[0];
-                let answer = equation[1];
-                if (equation[0].contains("+") == true) {
-                    let operation = "+";
-                } else if (equation[0].contains("-") == true) {
-                    let operation = "-";
-                } else if (equation[0].contains("-") == true) {
-                    let operation = "*";
-                } else if (equation[0].contains("-") == true) {
-                    let operation = "/";
+            for (let j = 0; j < 4; j++) {
+                if (document.getElementById("text" + row + '-' + (i)).textContent == listOfOperations[j]) {
+                    operationCounter = operationCounter + 1;
+                    operation = listOfOperations[j];
                 }
-            } else if (equation[1].contains("+") == true || equation[1].contains("-") == true || equation[1].contains("/") == true || equation[1].contains("*") == true) {
-                let expression = equation[1];
-                let answer = equation[0];
-                if (equation[1].contains("+") == true) {
-                    let operation = "+";
-                } else if (equation[1].contains("-") == true) {
-                    let operation = "-";
-                } else if (equation[1].contains("-") == true) {
-                    let operation = "*";
-                } else if (equation[1].contains("-") == true) {
-                    let operation = "/";
-                }
-            }
-            expression = expression.split(operation);
-            if (operation == "+" || expression[0] + expression[1] == answer) {
-                let equationCheck = true;
-            } else if (operation == "-" || expression[0] - expression[1] == answer) {
-                let equationCheck = true;
-            } else if (operation == "*" || expression[0] * expression[1] == answer) {
-                let equationCheck = true;
-            } else if (operation == "/" || expression[0] / expression[1] == answer) {
-                let equationCheck = true;
-            } else {
-                let equationCheck = false;
             }
         }
     }
-    //checkpoint
+    
 }
 
 function charTyped(char) {
@@ -135,17 +102,34 @@ function charDelete() {
     }
 }
 
+
 function gameLoad(){
     document.cookie = "row=1";
     document.cookie = "box=1";
     document.cookie = "secretEquation=" + createEquation();
+    document.getElementById("playAgain").style.display="none";
+    document.getElementById("invalid").style.display="none";
 }
 
 function information(){
     document.getElementById("onLoad").style.display="none";
     document.getElementById("instructions").style.display = "none";
+    document.getElementById("invalid").style.display="none";
+    document.getElementById("playAgain").style.display="none";
 }
 function informationDisplay(){
     document.getElementById("onLoad").style.display="block";
     document.getElementById("instructions").style.display="inline";
+    document.getElementById("playAgain").style.display="none";
+    document.getElementById("invalid").style.display="none";
+}
+
+function playMore(){
+    document.cookie = "row=1";
+    document.cookie = "box=1";
+    document.cookie = "secretEquation=" + createEquation();
+    document.getElementById("playAgain").style.display="none";
+    document.getElementById("invalid").style.display="none";
+    document.getElementById("onLoad").style.display="none";
+    document.getElementById("instructions").style.display = "none";
 }
