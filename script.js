@@ -64,9 +64,12 @@ function checkEquation() {
     let operationCounter = 0;
     let operation = "";
     let equation = "";
+    let expression = "";
+    let answer = ""
+    let ogEquation = "";
     const listOfOperations = ['+', '-', '*', "/", '='];
     if (document.getElementById("text" + row.toString() + "-6").textContent == "") {
-        alert("bad");
+        equationCheck = 'bad';
     } else {
         for (let i = 1; i < 7; i++) {
             equation = equation + document.getElementById("text" + row + '-' + (i)).textContent;
@@ -80,8 +83,74 @@ function checkEquation() {
                 }
             }
         }
+        if (operationCounter != 1 || equalCounter != 1) {
+            equationCheck = 'bad';
+        } else {
+            for (i = 0; i < 5; i++) {
+                if (document.getElementById("text" + row + '-1').textContent == listOfOperations[i] || document.getElementById("text" + row + '-6').textContent == listOfOperations[i]) {
+                    let equationCheck = 'bad';
+                }
+            }
+        }
+        if (equationCheck != 'bad') {
+            ogEquation = equation;
+            equation = equation.split("=");
+            for (i = 0; i < 4; i++) {
+                for (j = 0; j < 2; j++) {
+                    if (equation[j].includes(listOfOperations[i]) == true) {
+                        expression = equation[j]
+                        if (j == 0) {
+                            answer = equation[1]
+                        } else if (j == 1) {
+                            answer = equation[0]
+                        }
+                    }
+                }
+            }
+        }
+        if (equationCheck != 'bad') {
+            expression = expression.split(operation);
+            expression[0] = parseInt(expression[0]);
+            expression[1] = parseInt(expression[1]);
+            if (operation == "+") {
+                if (expression[0] + expression[1] != answer) {
+                    equationCheck = "bad";
+                }
+            } else if (operation == "-") {
+                if (expression[0] - expression[1] != answer) {
+                    equationCheck = "bad";
+                }
+            } else if (operation == "*") {
+                if (expression[0] * expression[1] != answer) {
+                    equationCheck = "bad";
+                }
+            } else if (operation == "/") {
+                if (expression[0] / expression[1] != answer) {
+                    equationCheck = "bad";
+                }
+            }
+        }
+        if (equationCheck != "bad") {
+            if (ogEquation == getCookie('secretEquation')) {
+                alert('win');
+            } else {
+                if (getCookie('row') == 5) {
+                    alert('lose');
+                } else {
+                    //checkpoint
+                    document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
+                    document.cookie = "box=1";
+                    alert('try again');
+                }
+            }
+        } else if (equationCheck == 'bad') {
+            alert('invalid equation');
+            for (i = 1; i < 7; i++) {
+                document.getElementById('text' + getCookie('row') + '-' + i).textContent = "";
+            }
+            document.cookie = "box=1";
+        }
     }
-    
 }
 
 function charTyped(char) {
@@ -133,3 +202,69 @@ function playMore(){
     document.getElementById("onLoad").style.display="none";
     document.getElementById("instructions").style.display = "none";
 }
+document.addEventListener('keydown', function(event) {
+    if(event.keyCode == 48) {
+        charTyped('0');
+    }
+    else if(event.keyCode == 49) {
+        charTyped('1');
+    }
+    else if(event.keyCode == 50) {
+        charTyped('2');
+    }
+    else if(event.keyCode == 51) {
+        charTyped('3');
+    }
+    else if(event.keyCode == 52) {
+        charTyped('4');
+    }
+    else if(event.keyCode == 53) {
+        charTyped('5');
+    }
+    else if(event.keyCode == 54) {
+        charTyped('6');
+    }
+    else if(event.keyCode == 55) {
+        charTyped('7');
+    }
+    else if(event.keyCode == 56) {
+        charTyped('8');
+    }
+    else if(event.keyCode == 57) {
+        charTyped('9');
+    }
+    else if(event.keyCode == 107) {
+        charTyped('+');
+    }
+    else if(event.keyCode == 109) {
+        charTyped('-');
+    }
+    else if(event.keyCode == 111) {
+        charTyped('/');
+    }
+    else if(event.keyCode == 106) {
+        charTyped('*');
+    }
+    else if(event.keyCode == 187) {
+        charTyped('=');
+    }
+    else if(event.keyCode == 65) {
+        charTyped('+');
+    }
+    else if(event.keyCode == 83) {
+        charTyped('-');
+    }
+    else if(event.keyCode == 77) {
+        charTyped('*');
+    }
+    else if(event.keyCode == 68) {
+        charTyped('/');
+    }
+    else if(event.keyCode == 13) {
+        checkEquation();
+    }
+    else if(event.keyCode == 8) {
+        charDelete();
+    }
+});
+
