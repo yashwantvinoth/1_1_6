@@ -14,6 +14,25 @@ function getCookie(cname) {
     return "";
 }
 
+function wordle(guessWord, goalWord) {
+    const result = [];
+  
+    for (let i = 0; i < guessWord.length; i++) {
+      const guessLetter = guessWord[i];
+      const goalLetter = goalWord[i];
+  
+      if (guessLetter === goalLetter) {
+        result.push('green');
+      } else if (goalWord.includes(guessLetter)) {
+        result.push('yellow');
+      } else {
+        result.push('red');
+      }
+    }
+  
+    return result;
+  }
+
 function createEquation() {
     let equation;
     let equationCheck;
@@ -133,14 +152,24 @@ function checkEquation() {
         if (equationCheck != "bad") {
             if (ogEquation == getCookie('secretEquation')) {
                 alert('win');
+                document.getElementById("alertthing").textContent = 'You Win!';
             } else {
                 if (getCookie('row') == 5) {
                     alert('lose');
+                    document.getElementById("alertthing").textContent = 'You Lose!';
                 } else {
-                    //checkpoint
+                    for (let i = 0; i < 6; i++) {
+                        if (ogEquation[i] === getCookie('secretEquation')[i]) {
+                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
+                        } else if (getCookie('secretEquation').includes(ogEquation)) {
+                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
+                        } else {
+                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'red';
+                        }
+                    }
                     document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
                     document.cookie = "box=1";
-                    alert('try again');
+                    document.getElementById("alertthing").textContent = 'Try Again, You have ' + (6 - getCookie('row')) + ' tries left';
                 }
             }
         } else if (equationCheck == 'bad') {
