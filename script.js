@@ -151,25 +151,25 @@ function checkEquation() {
         }
         if (equationCheck != "bad") {
             if (ogEquation == getCookie('secretEquation')) {
-                alert('win');
-                document.getElementById("alertthing").textContent = 'You Win!';
+                document.getElementById('playAgain').style.display="inline";
+                document.getElementById('winLose').textContent = "You Won!";
             } else {
                 if (getCookie('row') == 5) {
-                    alert('lose');
-                    document.getElementById("alertthing").textContent = 'You Lose!';
+                    document.getElementById('playAgain').style.display="inline";
+                    document.getElementById('winLose').textContent = "You Lost :(";
                 } else {
+                    const secretList = [];
+                    for (i=0; i<6; i++) {
+                        secretList.push(getCookie("secretEquation").charAt(i));
+                    }
                     for (let i = 0; i < 6; i++) {
-                        if (ogEquation[i] === getCookie('secretEquation')[i]) {
+                        if (ogEquation[i] == secretList[i]) {
                             document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
-                        } else if (getCookie('secretEquation').includes(ogEquation)) {
-                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
-                        } else {
-                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'red';
                         }
+                        secretList.splice(i, 1);
                     }
                     document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
                     document.cookie = "box=1";
-                    document.getElementById("alertthing").textContent = 'Try Again, You have ' + (6 - getCookie('row')) + ' tries left';
                 }
             }
         } else if (equationCheck == 'bad') {

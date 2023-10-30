@@ -8,6 +8,7 @@
 }
 .hideScroll {
     overflow-x: hidden;
+    overflow-y: hidden;
 }
 .intro {
 text-align: center;
@@ -22,7 +23,7 @@ margin-bottom: 2%;
     width:35px;
     object-fit:fill;
     border-style: solid;
-    margin-left: 90%;
+    margin-left: 75%;
     border-color: black;
     margin-bottom: 3.5%;
     cursor:pointer;
@@ -31,6 +32,21 @@ margin-bottom: 2%;
 .popUp:hover{
 opacity:0.75;
 }
+.pop {
+    display: flex;
+     margin-top: -6%;
+     height: 35px;
+     width:35px;
+     object-fit:fill;
+     border-style: solid;
+     margin-left:85%;
+     border-color: black;
+     margin-bottom: 3.5%;
+     cursor:pointer;
+ }
+ .pop:hover {
+   opacity: 0.75;
+ }
 
 #instructions {
     background-color: rgb(253, 3, 3);
@@ -80,7 +96,6 @@ opacity:0.75;
     border-style: solid;
     margin: 2px;
 }
-
 .input {
     text-align: center;
     font-size: 18px;
@@ -91,7 +106,6 @@ opacity:0.75;
     left:50%;
     margin: auto;
    transform: translateX(37.55%);
-
     text-align: center;
 }
 
