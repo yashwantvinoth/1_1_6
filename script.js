@@ -154,20 +154,21 @@ function checkEquation() {
                 document.getElementById('playAgain').style.display="inline";
                 document.getElementById('winLose').textContent = "You Won!";
             } else {
+                const indexes = [];
+                for (i=0; i<6; i++) {
+                    if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(i)) {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
+                    } else if (getCookie('secretEquation').includes(ogEquation.charAt(i)) == true && indexes.includes(i) == false) {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
+                        indexes.push = i;
+                    } else {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'grey';
+                    }
+                }
                 if (getCookie('row') == 5) {
                     document.getElementById('playAgain').style.display="inline";
                     document.getElementById('winLose').textContent = "You Lost :(";
                 } else {
-                    const secretList = [];
-                    for (i=0; i<6; i++) {
-                        secretList.push(getCookie("secretEquation").charAt(i));
-                    }
-                    for (let i = 0; i < 6; i++) {
-                        if (ogEquation[i] == secretList[i]) {
-                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
-                        }
-                        secretList.splice(i, 1);
-                    }
                     document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
                     document.cookie = "box=1";
                 }
