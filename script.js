@@ -150,29 +150,28 @@ function checkEquation() {
             }
         }
         if (equationCheck != "bad") {
-            const indexes = [];
-            for (i=0; i<6; i++) {
-                if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(i)) {
-                    document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
-                    indexes.push = i;                    
-                } else {
-                    for (j = 0; j < 6; j++) {
-                        if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(j) && indexes.includes(j) == false) {
-                            document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
-                            indexes.push = j;
-                        }
-                    }
-                } 
-            }
             if (ogEquation == getCookie('secretEquation')) {
                 document.getElementById('playAgain').style.display="inline";
                 document.getElementById('winLose').textContent = "You Won!";
-            } else if (getCookie('row') == 5) {
-                document.getElementById('playAgain').style.display="inline";
-                document.getElementById('winLose').textContent = "You Lost :(";
             } else {
-                document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
-                document.cookie = "box=1";
+                const indexes = [];
+                for (i=0; i<6; i++) {
+                    if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(i)) {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
+                    } else if (getCookie('secretEquation').includes(ogEquation.charAt(i)) == true && indexes.includes(i) == false) {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
+                        indexes.push = i;
+                    } else {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'grey';
+                    }
+                }
+                if (getCookie('row') == 5) {
+                    document.getElementById('playAgain').style.display="inline";
+                    document.getElementById('winLose').textContent = "You Lost :(";
+                } else {
+                    document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
+                    document.cookie = "box=1";
+                }
             }
         } else if (equationCheck == 'bad') {
             alert('invalid equation');
