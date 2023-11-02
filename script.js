@@ -150,28 +150,39 @@ function checkEquation() {
             }
         }
         if (equationCheck != "bad") {
+            const secretindexes = [];
+            const ogindexes = [];
+            for (i=0; i<6; i++) {
+                if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(i)) {
+                    document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
+                    secretindexes.push(i);
+                    ogindexes.push(i);
+                }
+            }
+            for (i=0; i<6; i++) {
+                for (j = 0; j < 6; j++) {
+                    if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(j) && ! ogindexes.includes(i) && ! secretindexes.includes(j)) {
+                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
+                        ogindexes.push(i);
+                        secretindexes.push(j);
+                        break;
+                    }
+                }
+            }
+            for (i=0; i<6; i++) {
+                if (! ogindexes.includes(i)) {
+                    document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'grey';
+                }
+            }
             if (ogEquation == getCookie('secretEquation')) {
                 document.getElementById('playAgain').style.display="inline";
                 document.getElementById('winLose').textContent = "You Won!";
+            } else if (getCookie('row') == 5) {
+                document.getElementById('playAgain').style.display="inline";
+                document.getElementById('winLose').textContent = "You Lost :(";
             } else {
-                const indexes = [];
-                for (i=0; i<6; i++) {
-                    if (ogEquation.charAt(i) == getCookie('secretEquation').charAt(i)) {
-                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'lightgreen';
-                    } else if (getCookie('secretEquation').includes(ogEquation.charAt(i)) == true && indexes.includes(i) == false) {
-                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'yellow';
-                        indexes.push = i;
-                    } else {
-                        document.getElementById('box' + getCookie('row').toString() + '-' + (i+1).toString()).style.backgroundColor = 'grey';
-                    }
-                }
-                if (getCookie('row') == 5) {
-                    document.getElementById('playAgain').style.display="inline";
-                    document.getElementById('winLose').textContent = "You Lost :(";
-                } else {
-                    document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
-                    document.cookie = "box=1";
-                }
+                document.cookie = "row=" + (parseInt(getCookie('row')) + 1);
+                document.cookie = "box=1";
             }
         } else if (equationCheck == 'bad') {
             alert('invalid equation');
@@ -224,14 +235,15 @@ function informationDisplay(){
 }
 
 function playMore(){
-    document.cookie = "row=1";
-    document.cookie = "box=1";
-    document.cookie = "secretEquation=" + createEquation();
-    document.getElementById("playAgain").style.display="none";
+    window.location.reload();
+}
+function playAgainDisplay(){
+    document.getElementById("playAgain").style.display="inline";
     document.getElementById("invalid").style.display="none";
     document.getElementById("onLoad").style.display="none";
     document.getElementById("instructions").style.display = "none";
 }
+
 document.addEventListener('keydown', function(event) {
     if(event.keyCode == 48) {
         charTyped('0');
@@ -258,7 +270,11 @@ document.addEventListener('keydown', function(event) {
         charTyped('7');
     }
     else if(event.keyCode == 56) {
-        charTyped('8');
+        if (event.shiftKey) {
+            charTyped('*');
+        } else {
+            charTyped('8');
+        }
     }
     else if(event.keyCode == 57) {
         charTyped('9');
@@ -276,7 +292,11 @@ document.addEventListener('keydown', function(event) {
         charTyped('*');
     }
     else if(event.keyCode == 187) {
-        charTyped('=');
+        if (event.shiftKey) {
+            charTyped('+');
+        } else {
+            charTyped('=');
+        }
     }
     else if(event.keyCode == 65) {
         charTyped('+');
@@ -295,6 +315,11 @@ document.addEventListener('keydown', function(event) {
     }
     else if(event.keyCode == 8) {
         charDelete();
+    }
+    else if(event.keyCode == 191) {
+        charTyped('/');
+    } else if (event.keyCode == 189) {
+        charTyped('-');
     }
 });
 

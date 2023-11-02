@@ -23,7 +23,7 @@ margin-bottom: 2%;
     width:35px;
     object-fit:fill;
     border-style: solid;
-    margin-left: 75%;
+    margin-left: 68%;
     border-color: black;
     margin-bottom: 3.5%;
     cursor:pointer;
@@ -34,12 +34,12 @@ opacity:0.75;
 }
 .pop {
     display: flex;
-     margin-top: -6%;
+     margin-top: -6.20%;
      height: 35px;
      width:35px;
      object-fit:fill;
      border-style: solid;
-     margin-left:85%;
+     margin-left:73%;
      border-color: black;
      margin-bottom: 3.5%;
      cursor:pointer;
@@ -96,6 +96,7 @@ opacity:0.75;
     border-style: solid;
     margin: 2px;
 }
+
 .input {
     text-align: center;
     font-size: 18px;
@@ -103,7 +104,6 @@ opacity:0.75;
 .inputRow{
     display:flex(column);
     align-items: center;
-    left:50%;
     margin: auto;
    transform: translateX(37.55%);
     text-align: center;
@@ -161,7 +161,7 @@ padding-top:1%;
 display:flex;
 padding: 3px 3px 3px 3px;
 margin: 3px 3px 3px 3px;
-background-color:rgb(70, 66, 66);
+background-color:rgb(222, 68, 68);
 color:whitesmoke;
 margin: 0.5% 0.5% 0.5% 0.5%;
 justify-content: center;
